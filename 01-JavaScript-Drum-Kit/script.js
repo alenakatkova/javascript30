@@ -10,8 +10,12 @@ document.addEventListener("keydown", (e) => {
   if (keys.indexOf(keyPressedValue) > -1) {
     keyPressedElement.classList.add("playing");
     document.querySelector(`audio[data-key="${keyPressedValue}"]`).play();
-    keyPressedElement.addEventListener("transitionend", () => {
+
+    const removeActiveClassHandler = () => {
       keyPressedElement.classList.remove("playing");
-    });
+      keyPressedElement.removeEventListener("transitionend", removeActiveClassHandler);
+    };
+
+    keyPressedElement.addEventListener("transitionend", removeActiveClassHandler);
   }
 });
