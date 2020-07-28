@@ -83,6 +83,15 @@
     const hourHand = document.querySelector(".hour-hand");
     const minuteHand = document.querySelector(".min-hand");
     const secondHand = document.querySelector(".second-hand");
+
+    const initialRotate = 90;
+    const hourCycle = 12;
+    const rotationDegree = {
+      hours: 30,
+      minutes: 6,
+      seconds: 6
+    };
+
     const getCurrentTime = () => {
       let date = new Date();
       return {
@@ -91,20 +100,20 @@
         seconds: date.getSeconds()
       };
     };
-    let currentTime = getCurrentTime();
 
-    const setCurrentTime = (currentTime) => {
-      hourHand.style.transform = `rotate(${90 + (currentTime.hours % 12) * 30}deg)`;
-      minuteHand.style.transform = `rotate(${90 + currentTime.minutes * 6}deg)`;
-      secondHand.style.transform = `rotate(${90 + currentTime.seconds * 6}deg)`;
+    const setCurrentTime = (time) => {
+      hourHand.style.transform = `rotate(${initialRotate + (time.hours % hourCycle) * rotationDegree.hours}deg)`;
+      minuteHand.style.transform = `rotate(${initialRotate + time.minutes * rotationDegree.minutes}deg)`;
+      secondHand.style.transform = `rotate(${initialRotate + time.seconds * rotationDegree.seconds}deg)`;
     };
 
-    setCurrentTime(currentTime);
-    let rotation = currentTime.seconds * 6;
-    setInterval(() => {
-      secondHand.style.transform = `rotate(${90 + rotation}deg)`;
-      rotation = rotation === 354 ? 0 : rotation + 6;
-    }, 1000)
+    const tick = () => {
+      let currentTime = getCurrentTime();
+      setCurrentTime(currentTime);
+    };
+
+    tick();
+    setInterval(tick, 1000);
   </script>
 </body>
 </html>
