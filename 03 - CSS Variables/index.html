@@ -22,19 +22,19 @@
 
   <style>
     :root {
-      --base-color: #FFFF00;
+      --base: #ffc600;
       --blur: 0;
       --spacing: 10px;
     }
 
     img {
-      background-color: var(--base-color);
+      background-color: var(--base);
       filter: blur(var(--blur));
       padding: var(--spacing);
     }
 
     .hl {
-      color: var(--base-color);
+      color: var(--base);
     }
 
     /*
@@ -60,21 +60,26 @@
   </style>
 
   <script>
-    const blurInput = document.querySelector("input[id=\"blur\"]");
-    const spacingInput = document.querySelector("input[id=\"spacing\"]");
-    const baseInput = document.querySelector("input[id=\"base\"]");
+    const inputs = document.querySelectorAll("input");
     const root = document.documentElement;
 
-    blurInput.addEventListener("change", () => {
-      root.style.setProperty('--blur', blurInput.value + "px");
-    });
+    function changeHandler() {
+      let suffix = this.dataset.sizing ? this.dataset.sizing : "";
+      root.style.setProperty(`--${this.name}`, this.value + suffix);
+    }
 
-    spacingInput.addEventListener("change", () => {
-      root.style.setProperty('--spacing', spacingInput.value + "px");
-    });
+    function addMoveListenersTo(input) {
+      input.addEventListener("mousedown", () => {
+        input.addEventListener("mousemove", changeHandler);
+      });
+      input.addEventListener("mouseup", () => {
+        input.removeEventListener("mousemove", changeHandler);
+      });
+    }
 
-    baseInput.addEventListener("change", () => {
-      root.style.setProperty('--base-color', baseInput.value);
+    inputs.forEach(input => {
+      input.addEventListener("change", changeHandler);
+      addMoveListenersTo(input);
     });
   </script>
 
