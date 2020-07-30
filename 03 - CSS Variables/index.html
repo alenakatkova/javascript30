@@ -61,10 +61,20 @@
 
   <script>
     const blurInput = document.querySelector("input[id=\"blur\"]");
+    const spacingInput = document.querySelector("input[id=\"spacing\"]");
+    const baseInput = document.querySelector("input[id=\"base\"]");
     const root = document.documentElement;
 
     blurInput.addEventListener("change", () => {
       root.style.setProperty('--blur', blurInput.value + "px");
+    });
+
+    spacingInput.addEventListener("change", () => {
+      root.style.setProperty('--spacing', spacingInput.value + "px");
+    });
+
+    baseInput.addEventListener("change", () => {
+      root.style.setProperty('--base-color', baseInput.value);
     });
   </script>
 
