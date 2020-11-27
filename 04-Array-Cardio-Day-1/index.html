@@ -83,6 +83,15 @@
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+    console.log("Occurrences of instances in array:");
+    console.log(data.reduce((acc, cur) => {
+      if (acc.hasOwnProperty(cur)) {
+        acc[cur]++;
+      } else {
+        acc[cur] = 1;
+      }
+      return acc;
+    }, {}));
 
   </script>
 </body>
