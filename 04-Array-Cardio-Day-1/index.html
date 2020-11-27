@@ -31,12 +31,45 @@
 
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
+    console.log("The list of inventors who were born in the 1500's:");
+    console.log(inventors.filter(inventor => inventor.year >= 1500 && inventor.year < 1600));
 
     // Array.prototype.map()
     // 2. Give us an array of the inventors first and last names
+    console.log("An array of the inventors first and last names:");
+    console.log(inventors.map(inventor => `${inventor.first} ${inventor.last}`));
 
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
+    console.log("Inventors sorted by birthdate, oldest to youngest:");
+    console.log(inventors.sort((a, b) => a.year - b.year));
+
+
+    var numIdenticalPairs = function(nums) {
+      let pairs = {};
+      for (let i = 0; i < nums.length; i++) {
+        console.log(pairs);
+        if (!pairs[nums[i]]) {
+          console.log("hello");
+          pairs[nums[i]] = 1;
+        } else {
+          console.log("hi");
+          pairs[nums[i]]++;
+        }
+      }
+
+      let counter = 0;
+      for (let key in pairs) {
+        console.log(key);
+
+        console.log(pairs[key]);
+        counter += (pairs[key]*(pairs[key])) / 2;
+      }
+
+      return counter;
+    };
+
+    numIdenticalPairs([1,2,3,1,2,3,1]);
 
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live all together?
