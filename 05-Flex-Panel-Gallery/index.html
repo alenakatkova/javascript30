@@ -74,7 +74,7 @@
 
     .panel.open {
       font-size: 40px;
-      flex-grow: 2;
+      flex-grow: 4;
     }
 
   </style>
@@ -117,11 +117,9 @@
           openPanels[i].classList.remove("open");
         }
       }
-      e.target.classList.add("open");
+      let hoveredPanel = e.target.classList.contains("panel") ? e.target : e.target.parentNode;
+      hoveredPanel.classList.add("open");
     });
   </script>
-
-
-
 </body>
 </html>
