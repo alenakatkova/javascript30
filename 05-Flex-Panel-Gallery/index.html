@@ -26,6 +26,8 @@
     .panels {
       min-height: 100vh;
       overflow: hidden;
+      display: flex;
+      flex-direction: row;
     }
 
     .panel {
@@ -43,6 +45,7 @@
       font-size: 20px;
       background-size: cover;
       background-position: center;
+      flex-grow: 1;
     }
 
     .panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
@@ -71,6 +74,7 @@
 
     .panel.open {
       font-size: 40px;
+      flex-grow: 2;
     }
 
   </style>
@@ -105,7 +109,16 @@
   </div>
 
   <script>
-
+    const panelsContainer = document.querySelector(".panels");
+    panelsContainer.addEventListener("mouseover", function(e) {
+      let openPanels = Array.from(document.querySelectorAll(".panel.open"));
+      if (openPanels.length > 0) {
+        for (let i = 0; i < openPanels.length; i++) {
+          openPanels[i].classList.remove("open");
+        }
+      }
+      e.target.classList.add("open");
+    });
   </script>
 
 
