@@ -16,13 +16,28 @@
   </form>
 <script>
   const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  const input = document.querySelector(".search");
+  const searchResultsList = document.querySelector("ul");
 
   async function getCities() {
     const response = await fetch(endpoint);
     return await response.json();
   }
 
-  const input = document.querySelector(".search");
+  function deleteSearchResults() {
+    let searchResults = searchResultsList.querySelectorAll("li");
+    for (let i = 0; i < searchResults.length; i++) {
+      searchResults[i].remove();
+    }
+  }
+
+  function createSearchResult(data) {
+    let li = document.createElement("li");
+    let location = document.createTextNode(data.city + ", " + data.state);
+    li.appendChild(location);
+    searchResultsList.appendChild(li);
+  }
+
   input.addEventListener("input", () => {
     getCities()
         .catch(alert)
@@ -31,8 +46,15 @@
             return (a.city + ", " + a.state).toLowerCase().includes(input.value);
           })
         })
-        .then(filtered => console.log(filtered));
+        .then(filtered => {
+          deleteSearchResults();
+          for (let i = 0; i < filtered.length; i++) {
+            createSearchResult(filtered[i]);
+          }
+          console.log(filtered)
+        });
   });
+
 </script>
 </body>
 </html>
