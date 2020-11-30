@@ -15,8 +15,17 @@
     </ul>
   </form>
 <script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
+  async function getCities() {
+    const response = await fetch(endpoint);
+    return await response.json();
+  }
+
+  const input = document.querySelector(".search");
+  input.addEventListener("input", () => {
+    let found = getCities().catch(alert).then(json => {console.log(json[0].city + ", " + json[0].state)});
+  });
 </script>
 </body>
 </html>
