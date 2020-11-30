@@ -24,7 +24,14 @@
 
   const input = document.querySelector(".search");
   input.addEventListener("input", () => {
-    let found = getCities().catch(alert).then(json => {console.log(json[0].city + ", " + json[0].state)});
+    getCities()
+        .catch(alert)
+        .then(json => {
+          return json.filter(a => {
+            return (a.city + ", " + a.state).toLowerCase().includes(input.value);
+          })
+        })
+        .then(filtered => console.log(filtered));
   });
 </script>
 </body>
