@@ -17,27 +17,48 @@
 <script>
   const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
   const input = document.querySelector(".search");
-  const searchResultsList = document.querySelector("ul");
+  const searchResultsList = document.querySelector(".suggestions");
 
+  /**
+   * Fetches list of cities
+   */
   async function getCities() {
     const response = await fetch(endpoint);
     return await response.json();
   }
 
-  function deleteSearchResults() {
-    let searchResults = searchResultsList.querySelectorAll("li");
-    for (let i = 0; i < searchResults.length; i++) {
-      searchResults[i].remove();
+  /**
+   * Adds comma-dividers to the population number
+   * @param {number} int
+   * @returns {string}
+   */
+  function generatePopulationString(int) {
+    let str = int.toString();
+    let firstPartLength,
+        startFromIndex;
+    let divided = [];
+
+    startFromIndex = firstPartLength = str.length % 3;
+    if (firstPartLength > 0) divided.push(str.substr(0, firstPartLength));
+    for (let i = startFromIndex; i < str.length; i += 3) {
+      divided.push(str.substr(i, 3));
     }
+    return divided.join(",");
   }
 
+  /**
+   * Generates string with html-markup for a result of the search request
+   * @param {[]} data
+   * @param {string} searchRequest
+   * @returns {string}
+   */
   function createSearchResult(data, searchRequest) {
     let location = `${data.city}, ${data.state}`;
     let highlighted = location.replace(new RegExp(searchRequest, "gi"), `<span class="hl">${searchRequest}</span>`);
     return `
         <li>
           <span class="name">${highlighted}</span>
-          <span class="population">${data.population}</span>
+          <span class="population">${generatePopulationString(data.population)}</span>
         </li>
     `;
   }
@@ -51,13 +72,11 @@
           })
         })
         .then(filtered => {
-          deleteSearchResults();
           let searchResultsHtml = "";
           for (let i = 0; i < filtered.length; i++) {
             searchResultsHtml += createSearchResult(filtered[i], input.value);
           }
-          document.querySelector(".suggestions").innerHTML = searchResultsHtml;
-          console.log(filtered)
+          searchResultsList.innerHTML = searchResultsHtml;
         });
   });
 </script>
