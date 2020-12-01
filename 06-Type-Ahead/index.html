@@ -31,30 +31,35 @@
     }
   }
 
-  function createSearchResult(data) {
-    let li = document.createElement("li");
-    let location = document.createTextNode(data.city + ", " + data.state);
-    li.appendChild(location);
-    searchResultsList.appendChild(li);
+  function createSearchResult(data, searchRequest) {
+    let location = `${data.city}, ${data.state}`;
+    let highlighted = location.replace(new RegExp(searchRequest, "gi"), `<span class="hl">${searchRequest}</span>`);
+    return `
+        <li>
+          <span class="name">${highlighted}</span>
+          <span class="population">${data.population}</span>
+        </li>
+    `;
   }
 
   input.addEventListener("input", () => {
     getCities()
         .catch(alert)
-        .then(json => {
-          return json.filter(a => {
+        .then(cities => {
+          return cities.filter(a => {
             return (a.city + ", " + a.state).toLowerCase().includes(input.value);
           })
         })
         .then(filtered => {
           deleteSearchResults();
+          let searchResultsHtml = "";
           for (let i = 0; i < filtered.length; i++) {
-            createSearchResult(filtered[i]);
+            searchResultsHtml += createSearchResult(filtered[i], input.value);
           }
+          document.querySelector(".suggestions").innerHTML = searchResultsHtml;
           console.log(filtered)
         });
   });
-
 </script>
 </body>
 </html>
