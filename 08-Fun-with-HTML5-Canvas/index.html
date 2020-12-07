@@ -15,8 +15,27 @@
   ctx.strokeStyle = "#000000";
   ctx.lineCap = "round";
   ctx.lineJoin = "round";
+  ctx.lineWidth = 1;
+
+  const lineWidth = {
+    max: 100,
+    min: 1
+  };
+  let isLineWidthGrowing = true;
   let x = 0;
   let y = 0;
+
+  const changeLineWidth = () => {
+    ctx.lineWidth = isLineWidthGrowing
+            ? ctx.lineWidth + 1
+            : ctx.lineWidth - 1;
+
+    if (ctx.lineWidth === lineWidth.max) {
+      isLineWidthGrowing = false;
+    } else if (ctx.lineWidth === lineWidth.min) {
+      isLineWidthGrowing = true;
+    }
+  };
 
   const draw = (e) => {
     ctx.beginPath();
@@ -25,6 +44,8 @@
     ctx.stroke();
     x = e.offsetX;
     y = e.offsetY;
+
+    changeLineWidth();
   };
 
   canvas.addEventListener("mousedown", (e) => {
