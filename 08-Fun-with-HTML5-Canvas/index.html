@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas</title>
+</head>
+<body>
+<canvas id="draw" width="800" height="800"></canvas>
+<script>
+  const canvas = document.getElementById("draw");
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const lineWidth = {
+    max: 100,
+    min: 1
+  };
+  const hue = {
+    max: 359,
+    min: 0
+  };
+  let isHueGrowing = true;
+  let isLineWidthGrowing = true;
+  let currentHue = hue.min;
+
+  ctx.strokeStyle = `hsl(${currentHue}, 100%, 50%)`;
+  ctx.lineWidth = lineWidth.min;
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+
+  let x = 0;
+  let y = 0;
+
+  const changeHue = () => {
+    ctx.strokeStyle = isHueGrowing
+            ? `hsl(${currentHue++}, 100%, 50%)`
+            : `hsl(${currentHue--}, 100%, 50%)`;
+
+    if (currentHue === hue.max) {
+      isHueGrowing = false;
+    } else if (currentHue === hue.min) {
+      isHueGrowing = true;
+    }
+  };
+
+  const changeLineWidth = () => {
+    ctx.lineWidth = isLineWidthGrowing
+            ? ctx.lineWidth + 1
+            : ctx.lineWidth - 1;
+
+    if (ctx.lineWidth === lineWidth.max) {
+      isLineWidthGrowing = false;
+    } else if (ctx.lineWidth === lineWidth.min) {
+      isLineWidthGrowing = true;
+    }
+  };
+
+  const draw = (e) => {
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.stroke();
+    x = e.offsetX;
+    y = e.offsetY;
+
+    changeLineWidth();
+    changeHue();
+  };
+
+  canvas.addEventListener("mousedown", (e) => {
+    x = e.offsetX;
+    y = e.offsetY;
+    canvas.addEventListener("mousemove", draw);
+  });
+
+  canvas.addEventListener("mouseup", () => {
+    canvas.removeEventListener("mousemove", draw);
+  });
+
+  canvas.addEventListener("mouseout", () => {
+    canvas.removeEventListener("mousemove", draw);
+  });
+</script>
+
+<style>
+  html, body {
+    margin: 0;
+  }
+</style>
+
+</body>
+</html>
