@@ -8,22 +8,41 @@
 <canvas id="draw" width="800" height="800"></canvas>
 <script>
   const canvas = document.getElementById("draw");
+  const ctx = canvas.getContext('2d');
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-
-  const ctx = canvas.getContext('2d');
-  ctx.strokeStyle = "#000000";
-  ctx.lineCap = "round";
-  ctx.lineJoin = "round";
-  ctx.lineWidth = 1;
 
   const lineWidth = {
     max: 100,
     min: 1
   };
+  const hue = {
+    max: 359,
+    min: 0
+  };
+  let isHueGrowing = true;
   let isLineWidthGrowing = true;
+  let currentHue = hue.min;
+
+  ctx.strokeStyle = `hsl(${currentHue}, 100%, 50%)`;
+  ctx.lineWidth = lineWidth.min;
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+
   let x = 0;
   let y = 0;
+
+  const changeHue = () => {
+    ctx.strokeStyle = isHueGrowing
+            ? `hsl(${currentHue++}, 100%, 50%)`
+            : `hsl(${currentHue--}, 100%, 50%)`;
+
+    if (currentHue === hue.max) {
+      isHueGrowing = false;
+    } else if (currentHue === hue.min) {
+      isHueGrowing = true;
+    }
+  };
 
   const changeLineWidth = () => {
     ctx.lineWidth = isLineWidthGrowing
@@ -46,6 +65,7 @@
     y = e.offsetY;
 
     changeLineWidth();
+    changeHue();
   };
 
   canvas.addEventListener("mousedown", (e) => {
