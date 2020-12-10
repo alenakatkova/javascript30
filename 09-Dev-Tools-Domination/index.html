@@ -18,29 +18,56 @@
     }
 
     // Regular
+    console.log("Hi");
 
     // Interpolated
+    console.log("My name is %s", "Alena");
+    const name = "Alena";
+    console.log(`My name is ${name}`);
 
     // Styled
+    console.log("%c I was born in Orenburg, Russia", "font-size: 16px; border: 1px solid blue");
 
     // warning!
+    console.warn("Stop");
 
     // Error :|
+    console.error("Something very wrong happened");
 
     // Info
+    console.info("'der Stein' means 'stone'");
 
     // Testing
+    console.assert("apple" === "bacon", "That is not true");
 
     // clearing
+    // console.clear();
 
     // Viewing DOM Elements
+    const p = document.querySelector("p")
+    console.log(p);
+    console.dir(p);
 
     // Grouping together
+    dogs.forEach(dog => {
+      console.groupCollapsed(dog.name);
+      console.log(`Dog's name is ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years old`);
+      console.log(`${dog.name} is a happy dog!`);
+      console.groupEnd();
+    });
 
     // counting
+    for (let i = 0; i <= 4; i++) {
+      dogs.forEach(dog => console.count(dog.name));
+    }
 
-    // timing
-
+    // timing and table
+    console.time("fetching data");
+    fetch("https://randomuser.me/api/?results=10").then(data => data.json()).then(data => {
+      console.timeEnd("fetching data");
+      console.table(data.results);
+    });
   </script>
 </body>
 </html>
