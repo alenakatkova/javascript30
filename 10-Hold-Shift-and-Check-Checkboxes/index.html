@@ -96,6 +96,31 @@
   </div>
 
 <script>
+  const checkboxes = document.querySelectorAll("input[type=checkbox]");
+  let start = null;
+  let end = null;
+
+
+  for (let i = 0; i < checkboxes.length; i++) {
+
+    checkboxes[i].setAttribute("data-id", i.toString());
+    checkboxes[i].addEventListener("click", (e) => {
+      if (!e.shiftKey) start = e.target.dataset.id;
+      if (e.shiftKey) end = e.target.dataset.id;
+      console.log("start : " + start);
+      console.log("end : " + end);
+
+      if (!!end) {
+        if (start < end) {
+          for (let j = start; j <= end; j++) console.log(j);
+        } else {
+          console.log("bla")
+          for (let j = start; j >= end; j--) console.log(j);
+        }
+      }
+    })
+  }
+
 </script>
 </body>
 </html>
