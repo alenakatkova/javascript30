@@ -100,27 +100,23 @@
   let start = null;
   let end = null;
 
-
   for (let i = 0; i < checkboxes.length; i++) {
-
     checkboxes[i].setAttribute("data-id", i.toString());
     checkboxes[i].addEventListener("click", (e) => {
-      if (!e.shiftKey) start = e.target.dataset.id;
-      if (e.shiftKey) end = e.target.dataset.id;
-      console.log("start : " + start);
-      console.log("end : " + end);
+      if (e.target.checked && !e.shiftKey) start = e.target.dataset.id;
+      if (start !== null && e.shiftKey) end = e.target.dataset.id;
 
-      if (!!end) {
+      if (start !== null && end !== null) {
         if (start < end) {
-          for (let j = start; j <= end; j++) console.log(j);
+          for (let j = start; j <= end; j++) document.querySelector(`input[data-id="${j}"]`).checked = true;
+          start = end = null;
         } else {
-          console.log("bla")
-          for (let j = start; j >= end; j--) console.log(j);
+          for (let j = start; j >= end; j--) document.querySelector(`input[data-id="${j}"]`).checked = true;
+          start = end = null;
         }
       }
     })
   }
-
 </script>
 </body>
 </html>
