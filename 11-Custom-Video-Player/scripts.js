@@ -5,8 +5,7 @@ const symbols = {
 
 const video = document.querySelector(".viewer");
 const toggle = document.querySelector(".toggle");
-
-
+const volume = document.querySelector(".volume");
 
 let status = "paused";
 
@@ -23,5 +22,10 @@ const playOrPause = () => {
 };
 
 toggle.innerHTML = symbols.play;
+video.volume = volume.value;
+
 video.addEventListener("click", playOrPause);
 toggle.addEventListener("click", playOrPause);
+volume.addEventListener("input", () => {
+  video.volume = volume.value;
+});
