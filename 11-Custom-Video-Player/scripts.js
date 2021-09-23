@@ -5,41 +5,52 @@ const SYMBOLS = {
 
 // elements
 const video = document.querySelector(".viewer");
-const toggle = document.querySelector(".toggle");
+const toggleButton = document.querySelector(".toggle");
 const volume = document.querySelector(".volume");
 const playbackRate = document.querySelector(".playbackRate");
 const progress = document.querySelector(".progress");
 const progressFilled = document.querySelector(".progress__filled");
 const skipButtons = document.querySelectorAll(".skip");
+const fullscreenButton = document.querySelector(".fullscreen")
 
 //state
-let status = "paused";
 let isChangingProgress = false;
 
 // initial settings
-toggle.innerHTML = SYMBOLS.play;
+toggleButton.innerHTML = SYMBOLS.play;
 video.volume = volume.value;
 video.playbackRate = playbackRate.value;
-progressFilled.style.width = "0";
 progressFilled.style.flexBasis = "0";
 
 // functions
-const playOrPause = () => {
-  if (status === "paused") {
+const togglePlay = () => {
+  if (video.paused) {
     video.play();
-    status = "played";
-    toggle.innerHTML = SYMBOLS.pause;
   } else {
     video.pause();
-    status = "paused";
-    toggle.innerHTML = SYMBOLS.play;
+  }
+};
+
+const toggleFullscreen = () => {
+  if (!document.fullscreenElement) {
+    video.requestFullscreen().catch(err => {
+      alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+    });
+  } else {
+    document.exitFullscreen();
+  }
+};
+
+const updateToggleButton = () => {
+  if (video.paused) {
+    toggleButton.innerHTML = SYMBOLS.play;
+  } else {
+    toggleButton.innerHTML = SYMBOLS.pause;
   }
 };
 
 const colorProgressBar = (playedPercentage) => {
-  const progressBarFilledWidth = playedPercentage + "%";
-  progressFilled.style.width = progressBarFilledWidth;
-  progressFilled.style.flexBasis =  progressBarFilledWidth;
+  progressFilled.style.flexBasis =  playedPercentage + "%";
 };
 
 const changeProgressOnProgressBar = (e) => {
@@ -62,8 +73,10 @@ const stopChangingProgressOnMousemove = () => {
 };
 
 // adding listeners
-video.addEventListener("click", playOrPause);
-toggle.addEventListener("click", playOrPause);
+video.addEventListener("click", togglePlay);
+video.addEventListener("play", updateToggleButton);
+video.addEventListener("pause", updateToggleButton);
+toggleButton.addEventListener("click", togglePlay);
 volume.addEventListener("input", () => {
   video.volume = volume.value;
 });
@@ -79,13 +92,10 @@ progress.addEventListener("mousedown", (e) => {
   progress.addEventListener("mousemove", changeProgressOnMousemove);
   progress.addEventListener("mouseup", stopChangingProgressOnMousemove);
 });
-document.addEventListener("mouseup", () => {
-  if (isChangingProgress === true) {
-    stopChangingProgressOnMousemove();
-  }
-});
+document.addEventListener("mouseup", () => isChangingProgress && stopChangingProgressOnMousemove());
 [...skipButtons].forEach(button => {
   button.addEventListener("click", () => {
-    video.currentTime = video.currentTime + Number(button.dataset.skip);
+    video.currentTime += Number(button.dataset.skip);
   })
 });
+fullscreenButton.addEventListener("click", toggleFullscreen);
