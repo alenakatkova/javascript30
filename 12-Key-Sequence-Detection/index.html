@@ -6,7 +6,23 @@
   <script type="text/javascript" src="https://www.cornify.com/js/cornify.js"></script>
 </head>
 <body>
+<div>Type something. And if you type the secret code - the magic will happen. Btw, the secret code is a secret</div>
+<div class="pressed"></div>
 <script>
+  const pressedContainer = document.querySelector(".pressed");
+  const code = "secret";
+  let pressed = [];
+
+  window.addEventListener("keydown", (e) => {
+    if (/^[a-zA-Z]$/.test(e.key)) {
+      pressed.push(e.key);
+      pressedContainer.textContent += e.key;
+    }
+    if (pressed.join('').includes(code)) {
+      cornify_add();
+      pressed.splice(-code.length, code.length);
+    }
+  })
 </script>
 </body>
 </html>
