@@ -58,6 +58,29 @@
       };
     }
 
+    const isImageInOnScreen = (image) => {
+      const imageMiddleY = image.offsetTop + image.height * 0.5;
+      const shouldShow = imageMiddleY > window.scrollY;
+      const shouldHide = imageMiddleY > window.scrollY + window.innerHeight;
+      return shouldShow && !shouldHide;
+    };
+
+    const changeImageVisibilityStatus = (isOnScreen, image) => {
+      if (isOnScreen) {
+        image.classList.add("active");
+      } else {
+        image.classList.remove("active");
+      }
+    };
+
+    const showOrHideImagesOnPageScroll = () => {
+      const images = document.querySelectorAll(".slide-in");
+      [...images].forEach(image => {
+        changeImageVisibilityStatus(isImageInOnScreen(image), image);
+      });
+    };
+
+    window.addEventListener("scroll", debounce(showOrHideImagesOnPageScroll));
   </script>
 
   <style>
