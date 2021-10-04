@@ -69,10 +69,19 @@
     };
 
     // and think we make a copy:
+    let newPerson = person;
+    newPerson.name = "Alena";
+    console.log(person, newPerson); // {name: "Alena", age: 80} {name: "Alena", age: 80}
 
     // how do we take a copy instead?
+    let anotherPerson = Object.assign({}, person);
+    anotherPerson.name = "Wes";
+    console.log(person, anotherPerson); // {name: "Alena", age: 80} {name: "Wes", age: 80}
 
-    // We will hopefully soon see the object ...spread
+    // ...spread
+    let andOneMore = {...person};
+    andOneMore.name = "Charlie";
+    console.log(person, andOneMore); // {name: "Alena", age: 80} {name: "Charlie", age: 80}
 
     // Things to note - this is only 1 level deep - both for Arrays and Objects. lodash has a cloneDeep method, but you should think twice before using it.
 
