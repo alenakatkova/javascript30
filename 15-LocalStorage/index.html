@@ -37,11 +37,17 @@
   };
 
   const showItemsList = (items) => {
-    itemsList.innerHTML = items.map(item => {
+    itemsList.innerHTML = items.map((item, index) => {
       return `
             <li>
-                <input type="checkbox" name="tapas" id="tapas-${item.name}" ${item.ready ? 'checked' : ''}>
-                <label for="tapas-${item.name}">${item.name}</label>
+                <input
+                    type='checkbox'
+                    name='tapas'
+                    id='tapas-${index}'
+                    data-id='${index}'
+                    ${item.ready ? 'checked' : ''}
+                >
+                <label for='tapas-${index}'>${item.name}</label>
             </li>`;
     }).join('');
   };
@@ -53,7 +59,11 @@
     showItemsList(items);
   });
 
-
+  itemsList.addEventListener('click', (e) => {
+    if (e.target.nodeName === 'INPUT') {
+      items[Number(e.target.dataset.id)].ready = !items[Number(e.target.dataset.id)].ready;
+    }
+  });
 
 </script>
 
