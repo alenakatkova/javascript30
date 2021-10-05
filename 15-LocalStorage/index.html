@@ -61,9 +61,10 @@
   });
 
   itemsList.addEventListener('click', (e) => {
-    if (e.target.nodeName === 'INPUT') {
-      items[Number(e.target.dataset.id)].ready = !items[Number(e.target.dataset.id)].ready;
-    }
+    if (!e.target.matches('input')) return;
+    items[Number(e.target.dataset.id)].ready = !items[Number(e.target.dataset.id)].ready;
+    localStorage.setItem('items', JSON.stringify(items));
+    showItemsList(items);
   });
 
   showItemsList(items);
