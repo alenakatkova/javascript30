@@ -23,6 +23,10 @@
       <input type="text" class="item-input" name="item-input" placeholder="Item Name" required>
       <input type="submit" value="+ Add Item">
     </form>
+    <div class="check-buttons">
+      <button class="check-button" data-type="check">Check all</button>
+      <button class="check-button" data-type="uncheck">Uncheck all</button>
+    </div>
   </div>
 
 <script>
@@ -30,6 +34,7 @@
   const itemsList = document.querySelector('.plates');
   const itemInput = addItems.querySelector('.item-input');
   const savedItems = JSON.parse(localStorage.getItem('items'));
+  const checkButtons = document.querySelectorAll('.check-button');
   const items = savedItems || [];
   const item = {
     name,
@@ -65,6 +70,16 @@
     items[Number(e.target.dataset.id)].ready = !items[Number(e.target.dataset.id)].ready;
     localStorage.setItem('items', JSON.stringify(items));
     showItemsList(items);
+  });
+
+  [...checkButtons].forEach(button => {
+    button.addEventListener('click', () => {
+      items.forEach(item => {
+        item.ready = button.dataset.type === "check" ? true : false;
+      });
+      showItemsList(items);
+      localStorage.setItem('items', JSON.stringify(items));
+    })
   });
 
   showItemsList(items);
