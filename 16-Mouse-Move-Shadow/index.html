@@ -35,6 +35,20 @@
   </style>
 
 <script>
+  const hero = document.querySelector('.hero');
+  const h1 = hero.querySelector('h1');
+//  const
+  const clientHeight = document.documentElement.clientHeight;
+  const clientWidth = document.documentElement.clientWidth;
+  const middle = {
+    y: clientHeight / 2,
+    x: clientWidth / 2
+  };
+  console.log(h1.getBoundingClientRect())
+  console.log(clientHeight, clientWidth, middle.x, middle.y)
+  hero.addEventListener('mousemove', (e) => {
+
+  });
 </script>
 </body>
 </html>
