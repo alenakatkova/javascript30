@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Shadow</title>
+</head>
+<body>
+
+  <div class="hero">
+    <h1 contenteditable>🔥WOAH!</h1>
+  </div>
+
+  <style>
+  html {
+    color: black;
+    font-family: sans-serif;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+  }
+
+  h1 {
+    text-shadow: 10px 10px 5px blue;
+    font-size: 100px;
+  }
+  </style>
+
+<script>
+  const hero = document.querySelector('.hero');
+  const h1 = hero.querySelector('h1');
+
+  const clientHeight = document.documentElement.clientHeight;
+  const clientWidth = document.documentElement.clientWidth;
+  const maxShadowOffset = 30;
+  const clientHeightHalf = clientHeight / 2;
+  const clientWidthHalf = clientWidth / 2;
+
+  hero.addEventListener('mousemove', (e) => {
+    const shadowOffsetX = ((e.clientX - clientWidthHalf) * maxShadowOffset) / clientWidthHalf;
+    const shadowOffsetY = ((e.clientY - clientHeightHalf) * maxShadowOffset) / clientHeightHalf;
+    h1.style.textShadow = `${Math.round(shadowOffsetX)}px ${Math.round(shadowOffsetY)}px 5px blue`;
+  });
+</script>
+</body>
+</html>
