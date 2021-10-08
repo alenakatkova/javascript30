@@ -29,7 +29,7 @@
   }
 
   h1 {
-    text-shadow: 10px 10px 0 rgba(0,0,0,1);
+    text-shadow: 10px 10px 5px blue;
     font-size: 100px;
   }
   </style>
@@ -37,17 +37,17 @@
 <script>
   const hero = document.querySelector('.hero');
   const h1 = hero.querySelector('h1');
-//  const
+
   const clientHeight = document.documentElement.clientHeight;
   const clientWidth = document.documentElement.clientWidth;
-  const middle = {
-    y: clientHeight / 2,
-    x: clientWidth / 2
-  };
-  console.log(h1.getBoundingClientRect())
-  console.log(clientHeight, clientWidth, middle.x, middle.y)
-  hero.addEventListener('mousemove', (e) => {
+  const maxShadowOffset = 30;
+  const clientHeightHalf = clientHeight / 2;
+  const clientWidthHalf = clientWidth / 2;
 
+  hero.addEventListener('mousemove', (e) => {
+    const shadowOffsetX = ((e.clientX - clientWidthHalf) * maxShadowOffset) / clientWidthHalf;
+    const shadowOffsetY = ((e.clientY - clientHeightHalf) * maxShadowOffset) / clientHeightHalf;
+    h1.style.textShadow = `${Math.round(shadowOffsetX)}px ${Math.round(shadowOffsetY)}px 5px blue`;
   });
 </script>
 </body>
