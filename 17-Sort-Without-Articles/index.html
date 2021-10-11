@@ -46,9 +46,28 @@
   <ul id="bands"></ul>
 
 <script>
+const bandsList = document.getElementById('bands');
 const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+const articles = {
+  a: true,
+  an: true,
+  the: true
+};
 
+const deleteArticle = (title) => {
+  const split = title.split(' ');
+  if (articles.hasOwnProperty(split[0].toLowerCase())) {
+    return split.slice(1).join(' ');
+  } else {
+    return split.join(' ');
+  }
+};
 
+const sorted = bands.sort((title1, title2) => {
+  return deleteArticle(title1) > deleteArticle(title2) ? 1 : -1
+});
+
+bandsList.innerHTML = sorted.map(band => `<li>${band}</li>`).join('');
 </script>
 
 </body>
