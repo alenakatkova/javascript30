@@ -177,11 +177,29 @@
     <li data-time="1:56">
       Video 57
     </li>
-    <li data-time="4:04">
+    <li data-time="4:05">
       Video 58
     </li>
   </ul>
 <script>
+  const videos = document.querySelectorAll("li");
+
+  const calculateDurationInSeconds = (durationStr) => {
+    const durationArr = durationStr.split(":");
+    return Number(durationArr[0])*60 + Number(durationArr[1]);
+  };
+
+  const durationInSeconds = [...videos].reduce((acc, curr) => {
+    return acc + calculateDurationInSeconds(curr.dataset.time);
+  }, 0);
+
+  let duration = {
+    hours: Math.floor(durationInSeconds / 3600),
+    minutes: Math.floor((durationInSeconds % 3600) / 60),
+    seconds: (durationInSeconds % 3600) % 60
+  };
+
+  console.log(duration);
 </script>
 </body>
 </html>
