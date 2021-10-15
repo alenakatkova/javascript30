@@ -4,6 +4,13 @@ const ctx = canvas.getContext('2d');
 const strip = document.querySelector('.strip');
 const snap = document.querySelector('.snap');
 
+const takePhoto = () => {
+  var data = canvas.toDataURL('image/png');
+  var photo = document.createElement('img');
+  photo.setAttribute('src', data);
+  strip.appendChild(photo);
+};
+
 const isInRange = (value, min, max) => {
   return value >= min && value <= max;
 };
