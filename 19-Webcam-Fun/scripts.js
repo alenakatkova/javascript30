@@ -5,10 +5,14 @@ const strip = document.querySelector('.strip');
 const snap = document.querySelector('.snap');
 
 const takePhoto = () => {
-  var data = canvas.toDataURL('image/png');
-  var photo = document.createElement('img');
-  photo.setAttribute('src', data);
-  strip.appendChild(photo);
+  snap.currentTime = 0;
+  snap.play();
+  const data = canvas.toDataURL('image/png');
+  const photoLinkContainer = document.createElement('a');
+  photoLinkContainer.setAttribute('href', data);
+  photoLinkContainer.setAttribute('download', 'handsome');
+  photoLinkContainer.innerHTML = `<img src=${data}>`;
+  strip.appendChild(photoLinkContainer);
 };
 
 const isInRange = (value, min, max) => {
